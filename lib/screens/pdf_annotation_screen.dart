@@ -104,7 +104,7 @@ class _PdfAnnotationScreenState extends State<PdfAnnotationScreen> {
     // Y offset relative to the PDF page.
     double adjustedDY = localPosition.dy / _controller.zoomLevel -
         ((pageHeight * pageNumber) - _controller.scrollOffset.dy);
-    adjustedDY = kIsDesktop ? adjustedDY * heightPercentage : adjustedDY;
+    adjustedDY = kIsDesktop ? adjustedDY : adjustedDY * heightPercentage;
 
     final viewportConstraints = _getViewportConstraints();
     double extraGrayArea = (viewportConstraints.biggest.width -
@@ -117,12 +117,12 @@ class _PdfAnnotationScreenState extends State<PdfAnnotationScreen> {
         ? (localPosition.dx / _controller.zoomLevel) - extraGrayArea
         : localPosition.dx / _controller.zoomLevel;
     adjustedDX = adjustedDX + _controller.scrollOffset.dx;
-    adjustedDX = kIsDesktop ? adjustedDX * widthPercentage : adjustedDX;
+    adjustedDX = kIsDesktop ? adjustedDX : adjustedDX * widthPercentage;
 
     debugPrint(
         'Tapped at document coordinates: $adjustedDX, $adjustedDY in page $pageNumber');
 
-    /*debugPrint(('Number of layers: ${page.layers.count}'));
+    debugPrint(('Number of layers: ${page.layers.count}'));
     PdfPageLayer layer;
 
     if (page.layers.count == 0) {
@@ -138,14 +138,14 @@ class _PdfAnnotationScreenState extends State<PdfAnnotationScreen> {
       brush: PdfSolidBrush(
         PdfColor(0, 0, 255),
       ),
-    );*/
+    );
 
-    page.graphics.drawRectangle(
+    /*page.graphics.drawRectangle(
       bounds: Rect.fromLTWH(adjustedDX, adjustedDY, 50, 50),
       brush: PdfSolidBrush(
         PdfColor(0, 0, 255),
       ),
-    );
+    );*/
 
     final newDocumentBytes = await document.save();
     setState(() {
