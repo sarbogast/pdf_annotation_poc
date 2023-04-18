@@ -13,8 +13,8 @@ dependencies:
 
   cupertino_icons: ^1.0.5
 
-  syncfusion_flutter_pdf: ^21.1.38
-  syncfusion_flutter_pdfviewer: ^21.1.38
+  syncfusion_flutter_pdf: ^21.1.39
+  syncfusion_flutter_pdfviewer: ^21.1.39
 
 dev_dependencies:
   flutter_test:

@@ -21,6 +21,7 @@ class _PdfAnnotationScreenState extends State<PdfAnnotationScreen> {
   final PdfViewerController _controller = PdfViewerController();
   final double _pageSpacing = 4;
   Offset _scrollOffset = Offset.zero;
+  Offset? _scrollOffsetBeforeDocumentUpdate;
   Uint8List? _documentBytes;
 
   @override
@@ -148,8 +149,17 @@ class _PdfAnnotationScreenState extends State<PdfAnnotationScreen> {
     );*/
 
     final newDocumentBytes = await document.save();
+    // Remember scroll offset before updating document and thus resetting it
+    final scrollOffset = _scrollOffset;
     setState(() {
       _documentBytes = Uint8List.fromList(newDocumentBytes);
+    });
+    // wait for rebuild to be complete
+    Future.delayed(const Duration(milliseconds: 25), () {
+      _controller.jumpTo(
+        xOffset: scrollOffset.dx,
+        yOffset: scrollOffset.dy,
+      );
     });
   }
 
@@ -187,6 +197,9 @@ class _PdfAnnotationScreenState extends State<PdfAnnotationScreen> {
                 _documentBytes!,
                 controller: _controller,
                 pageSpacing: _pageSpacing,
+                enableTextSelection: false,
+                enableDocumentLinkAnnotation: false,
+                enableHyperlinkNavigation: false,
               ),
             ),
     );
